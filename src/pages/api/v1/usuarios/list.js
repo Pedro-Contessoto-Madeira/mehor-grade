@@ -1,19 +1,19 @@
-import Usuarios from '@helpers/api/usuarios'
+import { PrismaClient, Prisma } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
 
 export default async function handler(req, res) {
-    const { method, cookies, query } = req
-    console.log(query)
-    if('GET' != method)
-        res.status(400).json({message: "Method Not Allowed"})
+  const { method, cookies, query: { codigo } } = req
 
-    const usuario = new Usuarios()
-    usuario.headers = cookies
-    usuario.query = new URLSearchParams(query)
-    const response = await usuario.list()
-    const status = response.status
-    const json = await response.json()
-    res.status(200).json({data: json})
+  if('GET' != method)
+      res.status(400).json({message: "Method Not Allowed"})
+
+  try {
+    const result = await prisma.users.findMany()
+    res.status(200).json({data: result})
+  } catch (_) {
+    res.status(400).json({message: "wrong parameters"})
+  }
 }
-
-
   

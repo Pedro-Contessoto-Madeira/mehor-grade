@@ -24,7 +24,7 @@ const internal = {
         },
         usuarios: {
             get: "/api/v1/usuarios",
-            add: "/api/v1/usuarios",
+            add: "/api/v1/usuarios/add",
             delete: "/api/v1/usuarios/",
             admin: "/api/v1/usuarios/admin/",
             edit: "/api/v1/usuarios/edit/",

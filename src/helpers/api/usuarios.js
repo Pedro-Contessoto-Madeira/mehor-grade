@@ -31,7 +31,7 @@ export default class Usuarios{
     
     add = async payload => {
         try {
-            const path = routes.external.v1.usuarios.add
+            const path = routes.internal.v1.usuarios.add
             const headers = { ...this.headers, ...default_headers }
             const body = JSON.stringify(payload)
             const config = { method: 'post', body , headers }

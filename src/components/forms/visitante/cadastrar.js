@@ -21,7 +21,8 @@ export default function LoginForm(){
             body: JSON.stringify(data),
             headers,
         }).then(response => {
-            if(response.redirected) router.push("/visitante/login")
+            console.log(response.status);
+            if(response.status == 200) router.push("/visitante/login")
             else setIsError("Não foi possível criar usuário")
         })
     };
@@ -30,8 +31,12 @@ export default function LoginForm(){
         <form onSubmit={handleSubmit(onSubmit)}>
             <h1>Cadastrar</h1>
             <div className="mb-3">
+                <label className="form-label" >Email</label>
+                <input className="form-control" type="text" {...register('email') }/>
+            </div>
+            <div className="mb-3">
                 <label className="form-label" >Usuário</label>
-                <input className="form-control" type="text" {...register('usuario') }/>
+                <input className="form-control" type="text" {...register('name') }/>
             </div>
             <div className="mb-3">
                 <label className="form-label">Senha</label>

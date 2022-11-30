@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Squads {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  apontamentos   Apontamentos[]
+  integrantes   Users[]
+  deletedAt DateTime? @db.Timestamp(0)
+}
+
+model  Apontamentos {
+  id                Int      @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  title             String   @db.VarChar(255)
+  descricao         String   @db.VarChar(255)
+  escopo            String   @db.VarChar(20)
+  squad_responsavel Squads   @relation(fields: [squadsId], references: [id])
+  squadsId          Int          
+  impacto           String   @db.VarChar(10)
+  recomendacao      String   @db.VarChar(255)
+  cvss              String   @db.VarChar(50)
+  cvss_ponto        Float
+  status            String   @db.VarChar(10)
+  data_fechamento   DateTime 
+  prioridade        String   @db.VarChar(10)
+  relator           Users    @relation(fields: [usersId], references: [id])
+  usersId           Int
+  ambiente          String   @db.VarChar(10)
+  apontamento_aberto Boolean @default(false)
+  deletedAt DateTime? @db.Timestamp(0)
+}
+
+model Users {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  name      String
+  senha     String   @unique
+  apontamentos   Apontamentos[]
+  squads    Squads[]
+  deletedAt DateTime? @db.Timestamp(0)
+}
